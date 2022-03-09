@@ -1,4 +1,4 @@
-INSERT INTO usuarios (username, password, enable, nombre, apellido, email) VALUES ('William','12345', 1, 'William', 'Novoa','william@gmail.com' );
+INSERT INTO usuarios (username, password, enable, nombre, apellido, email) VALUES ('william','12345', 1, 'William Johan', 'Novoa','william@gmail.com' );
 INSERT INTO usuarios (username, password, enable, nombre, apellido, email) VALUES ('admin','12345', 1, 'Admin William', 'admin','admin@gmail.com' );
 
 INSERT INTO roles (nombre) VALUES ('ROLE_USER');

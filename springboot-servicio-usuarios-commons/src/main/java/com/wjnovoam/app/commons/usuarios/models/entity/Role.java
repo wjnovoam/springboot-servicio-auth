@@ -1,4 +1,4 @@
-package com.wjnovoam.app.usuarios.entity;
+package com.wjnovoam.app.commons.usuarios.models.entity;
 
 import javax.persistence.*;
 
