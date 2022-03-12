@@ -35,7 +35,7 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
 
         Usuario usuario = usuarioService.findByUsername(authentication.getName());
 
-        if(usuario.getIntentos() != null && usuario.getIntentos() > 0){
+        if(usuario.getIntentos() != null && usuario.getIntentos() > 0) {
             usuario.setIntentos(0);
             usuarioService.update(usuario, usuario.getId());
         }
@@ -47,25 +47,33 @@ public class AuthenticationSuccessErrorHandler implements AuthenticationEventPub
         log.info(mensaje);
         System.out.println(mensaje);
         try{
+            StringBuilder errors = new StringBuilder();
+            errors.append(mensaje);
+
             Usuario usuario = usuarioService.findByUsername(authentication.getName());
-            if(usuario.getIntentos()== null){
+            if (usuario.getIntentos() == null) {
                 usuario.setIntentos(0);
             }
 
             log.info("Intentos actual es de: " + usuario.getIntentos());
-            usuario.setIntentos(usuario.getIntentos() + 1);
-            log.info("Intentos despues es de: " + usuario.getIntentos());
 
-            if(usuario.getIntentos() >= 3){
-                log.error(String.format("El usuario %s deshabilitado por maximos intentos.", usuario.getUsername()));
+            usuario.setIntentos(usuario.getIntentos()+1);
+
+            log.info("Intentos después es de: " + usuario.getIntentos());
+
+            errors.append(" - Intentos del login: " + usuario.getIntentos());
+
+            if(usuario.getIntentos() >= 3) {
+                String errorMaxIntentos = String.format("El usuario %s des-habilitado por máximos intentos.", usuario.getUsername());
+                log.error(errorMaxIntentos);
+                errors.append(" - " + errorMaxIntentos);
                 usuario.setEnable(false);
             }
 
             usuarioService.update(usuario, usuario.getId());
 
         }catch (FeignException feignException){
-            //log.error(feignException.getMessage());
-            log.error(String.format("El usuario %s npexiste en el sistema", authentication.getName()));
+            log.error(String.format("El usuario %s no existe en el sistema", authentication.getName()))    ;
         }
     }
 }
